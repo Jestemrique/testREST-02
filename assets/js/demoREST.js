@@ -12,30 +12,29 @@ const mstrInitProps = {
 
 
 function homePageActions(){
-  console.log('page: ' + pageTitle);
-  const loginForm = document.getElementById('mstrLoginForm');
-  loginForm.addEventListener('submit', event => {
+  let loginForm = document.getElementById('mstrLoginForm');
+
+  loginForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      let formData = new FormData(loginForm);
+      let formAction = loginForm.action;
+      let formData =  new FormData(loginForm);
       let authInfo = {
-        username: formData.get('username'),
-        password: formData.get('password')
+          username: formData.get('username'),
+          password: formData.get('password')
       };
-      let mstrInfo = new MSTRestJS(mstrInitProps);
       
-      mstrInfo.doAuthenticate(authInfo)
+  let mstrRestJs = new MSTRestJS(mstrInitProps);
+  mstrRestJs.doAuthenticate(authInfo)
         .then( authToken => {
-                console.log("Token: " + authToken);
-                mstrInfo.getProjects(authToken)
-                    .then( projectsList => {
-                                            console.log(JSON.stringify(projectsList));
-                                            return projectsList;
-                                           });
-                window.location.replace(formAction);
-                })
-        .catch( error => {
-                  console.log("Error: " + error);
-                });
+            Promise.all([mstrRestJs.getProjects(authToken), mstrRestJs.getDossiers(authToken)])
+              .then( values => {
+                            console.log(values);
+                            window.location(loginForm.action);
+                        });
+                      })
+         .catch( error => {
+           console.log("Error"  + error);
+         });
   });
 }//End homePageActions()
 
