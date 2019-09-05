@@ -6,6 +6,7 @@ class MSTRestJS{
   restApiUrl = null; 
   persistLocalStorage = true;
   token = null;
+  projectsList = null;
 
   constructor( options){
     this.host = options.host;
@@ -46,25 +47,44 @@ class MSTRestJS{
             else{
               thow("Error: " + response.status + '-' + response.statusText);
             }
-            // if (response.ok){
-            //   this.token = response.headers.get('X-MSTR-AuthToken');
-            //   if (this.persistLocalStorage) {
-            //       localStorage.setItem('mstrInfo', JSON.stringify(this)); 
-            //     }    
-            //   return this.token;
-            //   }
-            //   else{
-            //     throw("Authentication error: " + response.status + response.statusText);
-            //   }
-            // })
           })
           .catch( error => {
             console.log("Error: " + 'hola');
           });
-      
-
-    
   }//End doAuthenticate().
+
+  getProjects(authToken){
+    let endPoint = this.restApiUrl + '/projects';
+    let fetchMethod = 'GET';
+    let fetchHeaders = {
+        'content-type': 'application/json',
+        'X-MSTR-AuthToken': authToken,
+      };
+    
+     return fetch(endPoint, {
+        credentials: 'include',
+        method: fetchMethod,
+        headers: fetchHeaders
+      })
+    .then( response => {
+      if (response.ok){
+        return response.json();
+      }
+      else{
+        throw("Error in response: " + response.status + "::" + response.statusText);
+      }
+      }) 
+    .then( 
+      json => {
+          this.projectsList = json.map( project => { return {"id":project.id, "name":project.name} });
+          this.persistMstrInfoChanges('projectsList', this.projectsList);
+          return this.projectsList;
+      })
+    .catch( (error) => {
+        console.log("Error" + error);
+    });
+  }//End getProjects();
+
 
 
 
