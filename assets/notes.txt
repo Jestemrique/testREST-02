@@ -1,0 +1,7 @@
+Fonts:
+<link href="https://fonts.googleapis.com/css?family=Assistant:200|Rokkitt:300&display=swap" rel="stylesheet">
+Specify in CSS
+Use the following CSS rules to specify these families:
+
+font-family: 'Assistant', sans-serif;
+font-family: 'Rokkitt', serif;
