@@ -1,4 +1,5 @@
 const pageTitle = document.title;
+let activeProject = 'allprojects';
 
 const mstrInitProps = {
   host: 'localhost',
@@ -7,28 +8,6 @@ const mstrInitProps = {
   restApiUrl: 'http://localhost:8080/Library111U2/api',
   persistLocalStorage: true 
 };
-
-
-
-
-
-
-
-function generateProjectLi(project){
-  let projectItem = document.createElement('li');
-  let projectLink = document.createElement('a');
-  let projectName = document.createTextNode(project.name);
-  projectLink.appendChild(projectName);
-  projectItem.appendChild(projectLink);
-
-  projectItem.classList.add("tab");
-  projectItem.addEventListener('click', event => {
-    setActiveProject(projectItem);
-    showTab(project.id);
-  });
-
-  return projectItem;
-}
 
 
 function setActiveProject(projectItem){
@@ -45,21 +24,6 @@ function setInactiveProject(projectItem){
 }
 
 
-
-
-function generateProjectsContent(projectsList){
-  let ulElement = document.createElement('ul');
-
-  for (const project of projectsList) {
-    let liProject = generateProjectLi(project);
-    ulElement.appendChild(liProject);
-  }
-  
-  setActiveProject(ulElement.firstChild);
-  
-  return ulElement;
-}
-
 function showTab(projectId){
   let allTabs = document.getElementsByClassName('tab-content');
   
@@ -69,8 +33,6 @@ function showTab(projectId){
   }
   let visibleTab = document.getElementById(projectId);
   visibleTab.classList.remove('is-hidden');
-  //visibleTab.classList.add('is-invisible');
-
 }
 
 
@@ -107,6 +69,36 @@ function generateDossiersTab(dossiersList, projectId){
 }
 
 
+function generateProjectLi(project){
+  let projectItem = document.createElement('li');
+  let projectLink = document.createElement('a');
+  let projectName = document.createTextNode(project.name);
+  projectLink.appendChild(projectName);
+  projectItem.appendChild(projectLink);
+
+  projectItem.classList.add("tab");
+  projectItem.addEventListener('click', event => {
+    setActiveProject(projectItem);
+    showTab(project.id);
+  });
+
+  return projectItem;
+}
+
+
+function generateProjectsContent(projectsList){
+  
+  let ulElement = document.createElement('ul');
+
+  for (const project of projectsList) {
+    let liProject = generateProjectLi(project);
+    ulElement.appendChild(liProject);
+  }
+  setActiveProject(ulElement.firstChild);
+  return ulElement;
+}
+
+
 function LibraryPageActions(){
   let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
   let projectsList = mstrInfo.projectsList;
@@ -128,12 +120,11 @@ function LibraryPageActions(){
     let projectTab = generateDossiersTab(dossiersList, project.id);
     dossiersContainer.appendChild(projectTab);
   }
+
+  activeProject = 'allprojects';
+  showTab(activeProject);
+
 }
-
-
-
-
-
 
 
 function homePageActions(){

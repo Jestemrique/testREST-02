@@ -8,60 +8,151 @@ const mstrInitProps = {
   persistLocalStorage: true 
 };
 
-function appendDossierToProject(dossier, projectLiElement){
-  let dossierItem = document.createElement('div');
-  let dossierItem__text = document.createElement('p');
-  dossierItem__text.innerHTML = dossier.name;
-  dossierItem.appendChild(dossierItem__text);
-  projectLiElement.appendChild(dossierItem);
-  
+
+
+
+
+
+
+
+
+
+function setActiveProject(projectItem){
+  //remove "is-active from rest of projects"
+  let projectElements = document.getElementsByClassName("tab");
+  for (const project of projectElements) {
+    project.classList.remove("is-active");
+  }
+  projectItem.classList.add('is-active');
 }
 
-function generateProjectsStructure(projectsList, dossiersList){
-  let ulElement = document.createElement('ul');
-  let allLiElement = document.createElement('li');
-  let allLinkElement = document.createElement('a');
-  let allLinkText = document.createTextNode('All');
+function setInactiveProject(projectItem){
+  projectItem.classList.remove('is-active');
+}
 
-  allLinkElement.appendChild(allLinkText);
-  allLiElement.appendChild(allLinkElement)
-  ulElement.appendChild(allLiElement);
-  for (const dossier of dossiersList) {
-    appendDossierToProject(dossier, allLiElement);
+
+
+
+// function generateProjectsContent(projectsList){
+//   let ulElement = document.createElement('ul');
+//   for (const project of projectsList) {
+//     let liProject = generateProjectLi(project);
+//     ulElement.appendChild(liProject);
+//   }
+//   setActiveProject(ulElement.firstChild);
+//   return ulElement;
+// }
+
+
+
+
+
+function showTab(projectId){
+  let allTabs = document.getElementsByClassName('tab-content');
+  
+  //allTabs.classList.add('is-invisible');
+  for (const tab of allTabs) {
+    tab.classList.add('is-hidden');
   }
+  let visibleTab = document.getElementById(projectId);
+  visibleTab.classList.remove('is-hidden');
+  //visibleTab.classList.add('is-invisible');
+
+}
 
 
-  for (const project of projectsList) {
-    console.log(project.id);
-    let projectLiElement = document.createElement('li');
-    let linkElement = document.createElement('a');
-    let linkText = document.createTextNode(project.name);
-    
-    linkElement.appendChild(linkText);
-    linkElement.title = project.name;
-    linkElement.setAttribute('projectIdData', project.id);
-    projectLiElement.appendChild(linkElement);
-    let projectDossiers = dossiersList.filter( dossier => dossier.projectId === project.id);
-    for (const dossier of projectDossiers) {
-      appendDossierToProject(dossier, projectLiElement);
+function generateDivDosier(dossier){
+  let divDossier = document.createElement('div');
+  
+  let dossierName = document.createTextNode(dossier.name);
+  divDossier.appendChild(dossierName);
+  return divDossier;
+};
+
+
+function generateDossiersTab(dossiersList, projectId){
+  let dossiersTab = document.createElement('div');
+  dossiersTab.classList.add('tab-content');
+  dossiersTab.id = projectId;
+
+  if (projectId === 'allprojects') {
+    for (const dossier of dossiersList) {
+      let divDossier = generateDivDosier(dossier);
+      dossiersTab.appendChild(divDossier);
     }
-    ulElement.appendChild(projectLiElement);
+    return dossiersTab;
+  } else {
+    let filteredDossiers = dossiersList.filter( dossier => dossier.projectId === projectId);
+    for (const dossier of filteredDossiers) {
+      let divDossier = generateDivDosier(dossier);
+      dossiersTab.appendChild(divDossier);
+    }
+    console.log(projectId);
   }
+  
+  return dossiersTab;
+}
+
+
+function generateProjectLi(project){
+  let projectItem = document.createElement('li');
+  let projectLink = document.createElement('a');
+  let projectName = document.createTextNode(project.name);
+  projectLink.appendChild(projectName);
+  projectItem.appendChild(projectLink);
+
+  projectItem.classList.add("tab");
+  projectItem.addEventListener('click', event => {
+    setActiveProject(projectItem);
+    showTab(project.id);
+  });
+
+  return projectItem;
+}
+
+
+function generateProjectsContent(projectsList){
+  
+  let ulElement = document.createElement('ul');
+
+  debugger;
+  for (const project of projectsList) {
+    debugger;
+    let liProject = generateProjectLi(project);
+    ulElement.appendChild(liProject);
+  }
+  setActiveProject(ulElement.firstChild);
   return ulElement;
 }
+
 
 function LibraryPageActions(){
   let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
   let projectsList = mstrInfo.projectsList;
+  //Assign special projectsList item to present all Dossiers.
+  let allProject = {
+    id: 'allprojects',
+    name:"All projects"
+  };
+  projectsList.unshift(allProject);
   let dossiersList = mstrInfo.dossiersList;
+  
+  let projectsContent = generateProjectsContent(projectsList);
 
   let projectsTabs = document.getElementById("projectsPanel");
-  //let projectsContent = generateProjectsContent(projectsList);
-  let projectsContent = generateProjectsStructure(projectsList, dossiersList);
   projectsTabs.appendChild(projectsContent);
-  
+  let dossiersContainer = document.getElementById("dossiersContainer");
 
+  for (const project of projectsList) {
+    let projectTab = generateDossiersTab(dossiersList, project.id);
+    dossiersContainer.appendChild(projectTab);
+  }
 }
+
+
+
+
+
 
 
 function homePageActions(){
