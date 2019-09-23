@@ -6,6 +6,7 @@ const mstrInitProps = {
   port: 8080,
   loginMode: 1,
   restApiUrl: 'http://localhost:8080/Library111U2/api',
+  libraryAppUrl: 'http//localhost:8080/Library111U2/app',
   persistLocalStorage: true 
 };
 
@@ -37,10 +38,21 @@ function showTab(projectId){
 
 
 function generateDivDosier(dossier){
+  let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
   let divDossier = document.createElement('div');
+  let linktext = document.createTextNode(mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.id);
+  //divDossier.appendChild(linktext);
+
+  let a = document.createElement('a');
+  a.appendChild(linktext);
+  a.href=linktext;
+  divDossier.appendChild(a);
   
-  let dossierName = document.createTextNode(dossier.name);
-  divDossier.appendChild(dossierName);
+  // let dossierLink = document.createElement('a');
+  // let dossierName = document.createTextNode(dossier.name);
+  // dossierLink.href = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.id;
+  // dossierLink.appendChild(dossierName);
+  // divDossier.appendChild(dossierLink);
   return divDossier;
 };
 

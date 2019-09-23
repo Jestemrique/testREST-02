@@ -1,4 +1,5 @@
 const pageTitle = document.title;
+let activeProject = 'allprojects';
 
 const mstrInitProps = {
   host: 'localhost',
@@ -7,14 +8,6 @@ const mstrInitProps = {
   restApiUrl: 'http://localhost:8080/Library111U2/api',
   persistLocalStorage: true 
 };
-
-
-
-
-
-
-
-
 
 
 function setActiveProject(projectItem){
@@ -31,22 +24,6 @@ function setInactiveProject(projectItem){
 }
 
 
-
-
-// function generateProjectsContent(projectsList){
-//   let ulElement = document.createElement('ul');
-//   for (const project of projectsList) {
-//     let liProject = generateProjectLi(project);
-//     ulElement.appendChild(liProject);
-//   }
-//   setActiveProject(ulElement.firstChild);
-//   return ulElement;
-// }
-
-
-
-
-
 function showTab(projectId){
   let allTabs = document.getElementsByClassName('tab-content');
   
@@ -56,8 +33,6 @@ function showTab(projectId){
   }
   let visibleTab = document.getElementById(projectId);
   visibleTab.classList.remove('is-hidden');
-  //visibleTab.classList.add('is-invisible');
-
 }
 
 
@@ -115,9 +90,7 @@ function generateProjectsContent(projectsList){
   
   let ulElement = document.createElement('ul');
 
-  debugger;
   for (const project of projectsList) {
-    debugger;
     let liProject = generateProjectLi(project);
     ulElement.appendChild(liProject);
   }
@@ -147,12 +120,11 @@ function LibraryPageActions(){
     let projectTab = generateDossiersTab(dossiersList, project.id);
     dossiersContainer.appendChild(projectTab);
   }
+
+  activeProject = 'allprojects';
+  showTab(activeProject);
+
 }
-
-
-
-
-
 
 
 function homePageActions(){

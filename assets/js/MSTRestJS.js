@@ -4,16 +4,19 @@ class MSTRestJS{
   port = null;
   loginMode = null;
   restApiUrl = null; 
+  libraryAppUrl = null;
   persistLocalStorage = true;
   token = null;
   projectsList = null;
   dossiersList = null;
+
 
   constructor( options){
     this.host = options.host;
     this.port = options.port;
     this.loginMode = options.loginMode;
     this.restApiUrl = options.restApiUrl;
+    this.libraryAppUrl = options.libraryAppUrl;
     if (options.persistLocalStorage){
       localStorage.setItem('mstrInfo', JSON.stringify(options)); 
     }
