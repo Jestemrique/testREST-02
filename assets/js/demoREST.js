@@ -38,21 +38,21 @@ function showTab(projectId){
 
 
 function generateDivDosier(dossier){
+  /**
+ * probar esto
+ *  href_component.setAttribute('href', baseUrLink + item.projectId + '/' + item.targetId);  
+ */
+  
   let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
   let divDossier = document.createElement('div');
-  let linktext = document.createTextNode(mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.id);
-  //divDossier.appendChild(linktext);
+  let linktext = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.targetId;
+  console.log("link: " + linktext);
 
-  let a = document.createElement('a');
-  a.appendChild(linktext);
-  a.href=linktext;
-  divDossier.appendChild(a);
-  
-  // let dossierLink = document.createElement('a');
-  // let dossierName = document.createTextNode(dossier.name);
-  // dossierLink.href = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.id;
-  // dossierLink.appendChild(dossierName);
-  // divDossier.appendChild(dossierLink);
+  let dossierLink = document.createElement('a');
+  let dossierName = document.createTextNode(dossier.name);
+  dossierLink.setAttribute('href', linktext);
+  dossierLink.appendChild(dossierName);
+  divDossier.appendChild(dossierLink);
   return divDossier;
 };
 
