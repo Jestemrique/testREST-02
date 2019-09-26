@@ -6,7 +6,7 @@ const mstrInitProps = {
   port: 8080,
   loginMode: 1,
   restApiUrl: 'http://localhost:8080/Library111U2/api',
-  libraryAppUrl: 'http//localhost:8080/Library111U2/app',
+  libraryAppUrl: 'http://localhost:8080/Library111U2/app',
   persistLocalStorage: true 
 };
 
