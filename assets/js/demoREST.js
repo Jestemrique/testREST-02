@@ -37,23 +37,90 @@ function showTab(projectId){
 }
 
 
-function generateDivDosier(dossier){
-  /**
- * probar esto
- *  href_component.setAttribute('href', baseUrLink + item.projectId + '/' + item.targetId);  
- */
-  
-  let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
-  let divDossier = document.createElement('div');
-  let linktext = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.targetId;
-  console.log("link: " + linktext);
 
-  let dossierLink = document.createElement('a');
+
+function generateDivDosier(dossier){
+  let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
+
+  let divDossierContainer = document.createElement("div");
+  let dossierDivLink = document.createElement('a');
+  divDossierContainer.appendChild(dossierDivLink);
+  let linktext = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.targetId;
+  dossierDivLink.href = linktext;
+  dossierDivLink.setAttribute("target", "_blank");
+  dossierDivLink.setAttribute("title", dossier.name);
+  
+
+
+  let divDossier = document.createElement('div');
+  dossierDivLink.appendChild(divDossier);
+  divDossier.classList.add("card");
+
+    //Dossier cover image.
+    let dossierCoverImage  = document.createElement("div");
+    let figureDossierCoverImage = document.createElement("div");
+    figureDossierCoverImage.classList.add("card-image");
+    figureDossierCoverImage.classList.add("image");
+    figureDossierCoverImage.classList.add("is-4by3");
+    dossierCoverImage.appendChild(figureDossierCoverImage);
+    let dossierImageElement = document.createElement("img");
+    dossierImageElement.setAttribute("src", dossier.coverUrl);
+    dossierImageElement.setAttribute("alt", dossier.name);
+    figureDossierCoverImage.appendChild(dossierImageElement);
+    divDossier.appendChild(dossierCoverImage);
+
+
+  //Link to dossier: dossierLink.
+  // let dossierLink = document.createElement('a');
+  // let linktext = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.targetId;
+  // let dossierName = document.createTextNode(dossier.name);
+  // dossierLink.href = linktext;
+  // dossierLink.setAttribute('targe', "_blank'");
+  // dossierLink.appendChild(dossierName);
+  //divDossier.appendChild(dossierLink);
+
+  //Dossier name:
+  let dossierContentDiv = document.createElement("div");
+  dossierContentDiv.classList.add("card-content");
+  let dossierNameDiv = document.createElement("div");
+  dossierNameDiv.classList.add("content");
+  dossierContentDiv.appendChild(dossierNameDiv);
   let dossierName = document.createTextNode(dossier.name);
-  dossierLink.setAttribute('href', linktext);
-  dossierLink.appendChild(dossierName);
-  divDossier.appendChild(dossierLink);
-  return divDossier;
+  dossierNameDiv.appendChild(dossierName);
+  divDossier.appendChild(dossierContentDiv);
+
+
+  //Dossier description.
+  let dossierDescriptionDiv = document.createElement("div");
+  dossierContentDiv.appendChild(dossierDescriptionDiv);
+  let dossierDescriptionText = document.createTextNode(dossier.description);
+  dossierDescriptionDiv.appendChild(dossierDescriptionText);
+
+  //Dossier footer.
+  let dossierFooterDiv = document.createElement("footer");
+  dossierFooterDiv.classList.add("card-footer");
+  divDossier.appendChild(dossierFooterDiv);
+  let dossierSpanOwner = document.createElement("span");
+  let dossierOwnerText = document.createTextNode("Owner: " + dossier.owner);
+  dossierSpanOwner.appendChild(dossierOwnerText);
+  dossierSpanOwner.classList.add("card-footer-item");
+  let dossierSpanLastUpdated = document.createElement("span");
+  let dossierLastUpdatedText = document.createTextNode("Last updated: " + dossier.lastUpdated);
+  dossierSpanLastUpdated.appendChild(dossierLastUpdatedText)
+  dossierSpanLastUpdated.classList.add("card-footer-item");
+  dossierFooterDiv.appendChild(dossierSpanOwner);
+  dossierFooterDiv.appendChild(dossierSpanLastUpdated);
+
+
+  
+
+  
+
+  
+  
+  
+  //return divDossier;
+  return divDossierContainer;
 };
 
 
