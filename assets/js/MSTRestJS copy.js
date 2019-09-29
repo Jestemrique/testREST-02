@@ -95,7 +95,14 @@ getDossiers(authToken, flagDossierInfo = 'DEFAULT'){
     return fetch(endPoint, fetchOptions)
       .then( response => response.json() )
       .then( data => {
-        this.dossiersList = data.map( dossier => { return {"id": dossier.id, "name": dossier.name, "projectId": dossier.projectId, "targetId": dossier.target.id}})
+        this.dossiersList = data.map( dossier => { return { "id": dossier.id, 
+                                                            "name": dossier.name, 
+                                                            "projectId": dossier.projectId, 
+                                                            "targetId": dossier.target.id, 
+                                                            "owner": dossier.target.owner.name, 
+                                                            "coverUrl": dossier.target.coverPageURL !== "" ? dossier.target.coverPageURL : "https://via.placeholder.com/350x150.png?text=Default+Dossier+Cover+Image", 
+                                                            "description": dossier.description, "lastUpdated": dossier.lastModifiedTime 
+                                                          }})
         this.persistMstrInfoChanges('dossiersList', this.dossiersList);
         return this.dossiersList;
       })

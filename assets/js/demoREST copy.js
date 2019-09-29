@@ -43,6 +43,9 @@ function generateDivDosier(dossier){
   let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
 
   let divDossierContainer = document.createElement("div");
+  //let divDossierContainer = document.createElement("li");
+  divDossierContainer.classList.add('dossier-card');
+  divDossierContainer.classList.add('column');
   let dossierDivLink = document.createElement('a');
   divDossierContainer.appendChild(dossierDivLink);
   let linktext = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.targetId;
@@ -54,7 +57,7 @@ function generateDivDosier(dossier){
 
   let divDossier = document.createElement('div');
   dossierDivLink.appendChild(divDossier);
-  divDossier.classList.add("mstr-card");
+  divDossier.classList.add("card");
 
     //Dossier cover image.
     let dossierCoverImage  = document.createElement("div");
@@ -95,6 +98,7 @@ function generateDivDosier(dossier){
   dossierContentDiv.appendChild(dossierDescriptionDiv);
   let dossierDescriptionText = document.createTextNode(dossier.description);
   dossierDescriptionDiv.appendChild(dossierDescriptionText);
+  dossierDescriptionDiv.classList.add("content");
 
   //Dossier footer.
   let dossierFooterDiv = document.createElement("footer");
@@ -105,28 +109,32 @@ function generateDivDosier(dossier){
   dossierSpanOwner.appendChild(dossierOwnerText);
   dossierSpanOwner.classList.add("card-footer-item");
   let dossierSpanLastUpdated = document.createElement("span");
-  let dossierLastUpdatedText = document.createTextNode("Last updated: " + dossier.lastUpdated);
+  // let dossierLastUpdatedText = document.createTextNode("Last updated: " + dossier.lastUpdated);
+  let dossierLastUpdatedText = document.createTextNode("Updated: " + formatDateTime(dossier.lastUpdated));
   dossierSpanLastUpdated.appendChild(dossierLastUpdatedText)
   dossierSpanLastUpdated.classList.add("card-footer-item");
   dossierFooterDiv.appendChild(dossierSpanOwner);
   dossierFooterDiv.appendChild(dossierSpanLastUpdated);
 
-
-  
-
-  
-
-  
-  
-  
   //return divDossier;
   return divDossierContainer;
 };
 
+function formatDateTime(dateTime){
+  let tempDateTime = new Date(dateTime);
+  // let    formattedDateTime = tempDateTime.toUTCString();
+  let    formattedDateTime = tempDateTime.toLocaleString();
+  return formattedDateTime;
+}
+
+
 
 function generateDossiersTab(dossiersList, projectId){
   let dossiersTab = document.createElement('div');
+  //let dossiersTab = document.createElement('ul');
   dossiersTab.classList.add('tab-content');
+  dossiersTab.classList.add('columns');
+  dossiersTab.classList.add('is-multiline');
   dossiersTab.id = projectId;
 
   if (projectId === 'allprojects') {

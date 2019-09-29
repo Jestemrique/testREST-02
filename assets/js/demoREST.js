@@ -46,6 +46,7 @@ function generateDivDosier(dossier){
   //let divDossierContainer = document.createElement("li");
   divDossierContainer.classList.add('dossier-card');
   divDossierContainer.classList.add('column');
+  divDossierContainer.classList.add('is-one-quarter');
   let dossierDivLink = document.createElement('a');
   divDossierContainer.appendChild(dossierDivLink);
   let linktext = mstrInfo.libraryAppUrl + "/" + dossier.projectId + "/" + dossier.targetId;
@@ -186,8 +187,87 @@ function generateProjectsContent(projectsList){
 }
 
 
+function generateGroupsContent(groups){
+  let returnedElement = document.createElement('div');
+
+  let groupsTitleHtml = document.createElement("div");
+  groupsTitleHtml.innerHTML = '<b>Groups:</b> ';
+   
+
+  let groupsContent = document.createElement('div');
+  groupsContent.classList.add("tags");
+  
+
+  for (const group of groups) {
+    let groupItem = document.createElement('span');
+    groupItem.classList.add('tag');
+    let groupText = document.createTextNode(group.name);
+    groupItem.appendChild(groupText);
+    groupsContent.appendChild(groupItem);
+  };
+
+  returnedElement.appendChild(groupsTitleHtml);
+  returnedElement.appendChild(groupsContent);
+  
+  return returnedElement;
+}
+
+
+function generateUserNameContent(userName){
+  let returnedElement = document.createElement("div");
+  let userNameContent = document.createElement('div');
+  userNameContent.innerHTML = "<b>User: </b>" + userName ;
+
+  returnedElement.appendChild(userNameContent);
+  //returnedElement.appendChild(userNameTitleHtml);
+  return returnedElement;
+};
+
+function generateUserCreated(dateCreated){
+  let returnedElement = document.createElement('div');
+
+  let userCreatedContent = document.createElement('div');
+  userCreatedContent.innerHTML = '<b>Created:</b> ' + dateCreated;
+  returnedElement.appendChild(userCreatedContent);
+
+
+  return returnedElement;
+
+}
+
+
+function generateUserContent(userDetails){
+  let userContent = document.createElement("div");
+  
+  // let userFullName = document.createTextNode(userDetails.fullName);
+  // userContent.appendChild(userFullName);
+  let userFullName = generateUserNameContent(userDetails.fullName);
+  userContent.appendChild(userFullName);
+
+  // let userCreated = document.createTextNode(formatDateTime(userDetails.dateCreated));
+  // userContent.appendChild(userCreated);
+  let userCreated = generateUserCreated(userDetails.dateCreated);
+  userContent.appendChild(userCreated);
+
+  let groups = generateGroupsContent(userDetails.groups);
+  userContent.appendChild(groups);
+
+  return userContent;
+}
+
+
+
 function LibraryPageActions(){
   let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
+
+  //Generate User info header.
+  let userDetails = mstrInfo.userInfo;
+  let userContent = generateUserContent(userDetails);
+  let userContainer = document.getElementById("userDetails");
+  userContainer.appendChild(userContent);
+
+
+  //Generate projects content.
   let projectsList = mstrInfo.projectsList;
   //Assign special projectsList item to present all Dossiers.
   let allProject = {
@@ -196,9 +276,9 @@ function LibraryPageActions(){
   };
   projectsList.unshift(allProject);
   let dossiersList = mstrInfo.dossiersList;
-  
   let projectsContent = generateProjectsContent(projectsList);
 
+  //Generate Dossiers containers.
   let projectsTabs = document.getElementById("projectsPanel");
   projectsTabs.appendChild(projectsContent);
   let dossiersContainer = document.getElementById("dossiersContainer");
@@ -228,10 +308,20 @@ function homePageActions(){
   let mstrRestJs = new MSTRestJS(mstrInitProps);
   mstrRestJs.doAuthenticate(authInfo)
         .then( authToken => {
-            Promise.all([mstrRestJs.getProjects(authToken), mstrRestJs.getDossiers(authToken)])
+            Promise.all([mstrRestJs.getSessionUserInfo(authToken),mstrRestJs.getProjects(authToken), mstrRestJs.getDossiers(authToken)])
               .then( values => {
-                            console.log(values);
-                            window.location = 'library.html';
+                            let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
+                            let userID = mstrInfo.userInfo.userID;
+                            mstrRestJs.getUserInfo(authToken, userID)
+                              .then( userInfo => {
+                                console.log("userInfo: " + userInfo);
+                                console.log(values);
+                                debugger;
+                                window.location = 'library.html';
+                              })
+                            // console.log(values);
+                            // debugger;
+                            // window.location = 'library.html';
                         });
                       })
          .catch( error => {

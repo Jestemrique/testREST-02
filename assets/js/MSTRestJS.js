@@ -9,6 +9,7 @@ class MSTRestJS{
   token = null;
   projectsList = null;
   dossiersList = null;
+  userInfo = {};
 
 
   constructor( options){
@@ -56,6 +57,61 @@ class MSTRestJS{
             console.log("Error: " + error);
           });
   }//End doAuthenticate().
+
+
+getSessionUserInfo(authToken){
+
+  let endPoint = this.restApiUrl + '/sessions/userInfo';
+  let fetchMethod = 'GET';
+  let fetchHeaders = {
+    'content-type': 'application/json',
+    'X-MSTR-AuthToken': authToken
+  };
+  return fetch(endPoint, {
+    credentials: 'include',
+    method: fetchMethod,
+    headers: fetchHeaders
+  })
+  .then( response => response.json() )
+  .then( json => {
+    this.userInfo.fullName = json.fullName;
+    this.userInfo.userID = json.id;
+    this.persistMstrInfoChanges('userInfo', this.userInfo);
+    return this.userInfo.fullName;
+  })
+  .catch( (error) => {
+    console.log("Error => " + error);
+  });
+
+}//End getSessionUserInfo()
+
+
+getUserInfo(authToken, userID){
+    let endPoint = this.restApiUrl + '/users/' + userID;
+    let fetchMethod = 'GET';
+    let fetchHeaders = {
+      'content-type': 'application/json',
+      'X-MSTR-AuthToken': authToken
+    };
+    return fetch(endPoint, {
+      credentials: 'include',
+      method: fetchMethod,
+      headers: fetchHeaders
+    })
+    .then( response => response.json())
+    .then( json => {
+      this.userInfo.fullName = json.name;
+      this.userInfo.dateCreated = json.dateCreated;
+      this.userInfo.groups = json.memberships.map( group => {return {"name": group.name} });
+      this.persistMstrInfoChanges('userInfo', this.userInfo);
+      return this.userInfo;
+    })
+    .catch( error => {
+      console.log("Error => " + error);
+    });
+
+}
+
 
 getProjects(authToken){
     let endPoint = this.restApiUrl + '/projects';
@@ -124,6 +180,10 @@ getDossiers(authToken, flagDossierInfo = 'DEFAULT'){
       case 'dossiersList':
         console.log("Persisting dossiers");
         tempMstr['dossiersList'] = value;
+        break;
+      case 'userInfo':
+        console.log('Persisting userinfo');
+        tempMstr['userInfo'] = value;
         break;
       default:
         console.log("Any other option to persist.");
