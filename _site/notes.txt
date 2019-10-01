@@ -1,0 +1,145 @@
+token
+10tqsredfiq7rdg2dkpct3fcdh
+
+Project ID
+B19DEDCC11D4E0EFC000EB9495D0F44F
+
+
+GET /sessions/userinfo
+
+{
+  "metadataUser": true,
+  "id": "54F3D26011D2896560009A8E67019608",
+  "fullName": "Administrator",
+  "initials": "A"
+}
+
+curl -X GET 
+--header 'Accept: application/json' 
+--header 'X-MSTR-AuthToken: 554c4d1ome6quj9moacqa1tv5i' 
+
+'http://localhost:8080/Library111U2/api/sessions/userInfo'
+
+
+
+GET /users/id
+
+curl -X GET 
+--header 
+'Accept: application/json' 
+--header 'X-MSTR-AuthToken: 554c4d1ome6quj9moacqa1tv5i' 
+'http://localhost:8080/Library111U2/api/users/54F3D26011D2896560009A8E67019608'
+
+
+{
+  "name": "Administrator",
+  "id": "54F3D26011D2896560009A8E67019608",
+  "type": 34,
+  "abbreviation": "Administrator",
+  "subtype": 8704,
+  "extType": 0,
+  "dateCreated": "2001-01-02T20:39:04.000+0000",
+  "dateModified": "2018-12-06T20:01:46.000+0000",
+  "version": "7EA18BD74AD3A3E675891F8FB012F50E",
+  "acg": 255,
+  "owner": {
+    "name": "Administrator",
+    "id": "54F3D26011D2896560009A8E67019608"
+  },
+  "ancestors": [
+    {
+      "name": "CASTOR_SERVER_CONFIGURATION",
+      "id": "5F90C74FB2944D70930B9BDDA6D2FBF1",
+      "level": 2
+    },
+    {
+      "name": "Users",
+      "id": "73F7482611D3596C60001B8F67019608",
+      "level": 1
+    }
+  ],
+  "acl": [
+    {
+      "deny": false,
+      "type": 1,
+      "rights": 5,
+      "trusteeId": "C82C6B1011D2894CC0009D9F29718E4F",
+      "trusteeName": "Everyone",
+      "trusteeType": 34,
+      "trusteeSubtype": 8705,
+      "inheritable": false
+    },
+    {
+      "deny": false,
+      "type": 1,
+      "rights": 255,
+      "trusteeId": "54F3D26011D2896560009A8E67019608",
+      "trusteeName": "Administrator",
+      "trusteeType": 34,
+      "trusteeSubtype": 8704,
+      "inheritable": false
+    },
+    {
+      "deny": false,
+      "type": 1,
+      "rights": 5,
+      "trusteeId": "294DEDC011D2F1D56000D98E67019608",
+      "trusteeName": "Public / Guest",
+      "trusteeType": 34,
+      "trusteeSubtype": 8705,
+      "inheritable": false
+    },
+    {
+      "deny": false,
+      "type": 1,
+      "rights": 5,
+      "trusteeId": "5F3FAFE011D2D8CC6000CC8E67019608",
+      "trusteeName": "System Monitors",
+      "trusteeType": 34,
+      "trusteeSubtype": 8705,
+      "inheritable": false
+    },
+    {
+      "deny": false,
+      "type": 1,
+      "rights": 255,
+      "trusteeId": "5F3FAFE111D2D8CC6000CC8E67019608",
+      "trusteeName": "System Administrators",
+      "trusteeType": 34,
+      "trusteeSubtype": 8705,
+      "inheritable": false
+    },
+    {
+      "deny": false,
+      "type": 1,
+      "rights": 13,
+      "trusteeId": "17CD5CDB43085A8A52533B86A05DCB3A",
+      "trusteeName": "User Administrators",
+      "trusteeType": 34,
+      "trusteeSubtype": 8705,
+      "inheritable": false
+    }
+  ],
+  "username": "Administrator",
+  "fullName": "Administrator",
+  "enabled": true,
+  "passwordModifiable": true,
+  "requireNewPassword": false,
+  "standardAuth": true,
+  "memberships": [
+    {
+      "id": "C82C6B1011D2894CC0009D9F29718E4F",
+      "name": "Everyone"
+    },
+    {
+      "id": "0AA72D6042B938FF3FBED3AAC39349F5",
+      "name": "Mobile Users"
+    },
+    {
+      "id": "5F3FAFE111D2D8CC6000CC8E67019608",
+      "name": "System Administrators"
+    }
+  ],
+  "initials": "A",
+  "defaultEmailAddress": ".\\FileSubscription"
+}

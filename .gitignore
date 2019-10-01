@@ -1,3 +1,4 @@
 # Don't track content of these folders
-_site
+#_site
 .sass-cache
+.logs
