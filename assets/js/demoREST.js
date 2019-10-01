@@ -308,7 +308,11 @@ function homePageActions(){
   let mstrRestJs = new MSTRestJS(mstrInitProps);
   mstrRestJs.doAuthenticate(authInfo)
         .then( authToken => {
-            Promise.all([mstrRestJs.getSessionUserInfo(authToken),mstrRestJs.getProjects(authToken), mstrRestJs.getDossiers(authToken)])
+          mstrRestJs.getSessionUserInfo(authToken);
+          return authToken;
+        })
+        .then( authToken => {
+            Promise.all([/*mstrRestJs.getSessionUserInfo(authToken),*/mstrRestJs.getProjects(authToken), mstrRestJs.getDossiers(authToken)])
               .then( values => {
                             let mstrInfo = JSON.parse(localStorage.getItem('mstrInfo'));
                             let userID = mstrInfo.userInfo.userID;
@@ -316,7 +320,6 @@ function homePageActions(){
                               .then( userInfo => {
                                 console.log("userInfo: " + userInfo);
                                 console.log(values);
-                                debugger;
                                 window.location = 'library.html';
                               })
                             // console.log(values);
