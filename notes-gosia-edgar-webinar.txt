@@ -73,11 +73,18 @@ username/password: admin/m$tr!23
 
 Final notes:
 
-Remember, the purpose of this is not coding in JS, as we discussed yesterday, this is only to show one of many ways to have Library dossiers classified. There are easier ways to accomplish this, but this is to intended to show the REST API and to learn. No pruduction code, etc...
+- Remember, the purpose of this is not coding in JS, as we discussed yesterday, this is only to show one of many ways to have Library dossiers classified. There are easier ways to accomplish this, but this is to intended to show the REST API and to learn. No pruduction code, etc...
 
-In case you want to play with the whole dev files you can download the whole repo and setup the whole thing with Jekyll and Sass but, again, I used them just to make it easier to develop. They're not needed at all.
+- In case you want to play with the whole dev files you can download the whole repo and setup the whole thing with Jekyll and Sass but, again, I used them just to make it easier to develop. They're not needed at all.
 In case you want to play:
 Links to Jekyll documentation:
 https://jekyllrb.com/
 Links to Sass documentation:
 https://sass-lang.com/
+
+
+I'll be available until 16:00h. today in case you need sth.
+
+See you next week!
+:)
+E.
